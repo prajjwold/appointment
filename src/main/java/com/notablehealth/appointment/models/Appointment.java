@@ -1,78 +1,51 @@
 package com.notablehealth.appointment.models;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Appointment {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String patientFirstName;
-	private String patientLastName;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
-	private Date date;
-	private AppointmentKind kind;
-	@OneToOne()
-	@JoinColumn(name = "doctor_id", referencedColumnName = "id")
-	private Doctor doctor;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "Appointment Id - auto generated")
+    private Long id;
 
-	public Doctor getDoctor() {
-		return doctor;
-	}
+    @ApiModelProperty(value = "Patient First Name")
+    @NotNull
+    private String patientFirstName;
 
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
+    @ApiModelProperty(value = "Patient Last Name")
+    private String patientLastName;
 
-	public Long getId() {
-		return id;
-	}
+    @ApiModelProperty(value = "Scheduled Appointment DateTime in MM-dd-yyyy hh:mm format")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
+    @NotNull
+    private Date date;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @ApiModelProperty(value = "Type of Appointment : New or Followup")
+    @NotNull
+    private AppointmentKind kind;
 
-	public String getPatientFirstName() {
-		return patientFirstName;
-	}
+    @ApiModelProperty(value = "Doctor with whom the appointment is scheduled")
+    @OneToOne()
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    private Doctor doctor;
 
-	public void setPatientFirstName(String patientFirstName) {
-		this.patientFirstName = patientFirstName;
-	}
-
-	public String getPatientLastName() {
-		return patientLastName;
-	}
-
-	public void setPatientLastName(String patientLastName) {
-		this.patientLastName = patientLastName;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public AppointmentKind getKind() {
-		return kind;
-	}
-
-	public void setKind(AppointmentKind kind) {
-		this.kind = kind;
-	}
-
+//    @ApiModelProperty(value = "Field for Versioning")
+//    @Version
+//    private int version;
 }
