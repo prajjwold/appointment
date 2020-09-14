@@ -21,6 +21,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -68,8 +69,8 @@ public class AppointmentsController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void create(@RequestBody Appointment appointment) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(@RequestBody @Valid Appointment appointment) {
 
         Date date = appointment.getDate();
         if (!this.isValidTime(date)) {
@@ -84,6 +85,13 @@ public class AppointmentsController {
         }
 
         this.appointmentRepository.save(appointment);
+    }
+
+    @PostMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void update(@PathVariable("id") long id, @RequestBody Appointment dto) {
+        Optional<Appointment> appointment = this.appointmentRepository.findById(id);
+        this.appointmentRepository.save(appointment.orElseGet(null));
     }
 
     @DeleteMapping("/{id}")

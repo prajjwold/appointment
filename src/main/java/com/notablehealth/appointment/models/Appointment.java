@@ -39,7 +39,9 @@ public class Appointment {
     private String patientLastName;
 
     @ApiModelProperty(value = "Scheduled Appointment DateTime in MM-dd-yyyy hh:mm format")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
     @NotNull(message = "Date cannot be empty")
 //    @NotNull(message = "{appointment.date.notNull}")
     @Future(message = "Past Date for appointment could not be saved")
