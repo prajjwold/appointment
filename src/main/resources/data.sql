@@ -9,9 +9,9 @@ INSERT INTO DOCTOR (FIRST_NAME, LAST_NAME) VALUES
 
 
 INSERT INTO APPOINTMENT (DATE , PATIENT_FIRST_NAME , PATIENT_LAST_NAME , KIND, DOCTOR_ID ) VALUES 
-(CURRENT_TIMESTAMP() + 3 , 'Sam', 'Smith', 0, 1),
-(CURRENT_TIMESTAMP() + 3 , 'Jane', 'Smith', 0, 1),
-(CURRENT_TIMESTAMP() + 3 , 'Sam', 'Smith', 0, 1),
+('2020-09-18 20:15:01' , 'Sam', 'Smith', 0, 1),
+('2020-09-18 20:15:01' , 'Jane', 'Smith', 0, 1),
+('2020-09-18 20:15:01', 'samuel', 'Smith', 0, 1),
 (CURRENT_TIMESTAMP() + 3 , 'Laura', 'Cooper', 0, 2),
 (CURRENT_TIMESTAMP() + 3 , 'Jane', 'Smith', 1, 2),
 (CURRENT_TIMESTAMP() + 4 , 'Jane', 'Smith', 1, 2),

@@ -39,7 +39,7 @@ public class Appointment {
     private String patientLastName;
 
     @ApiModelProperty(value = "Scheduled Appointment DateTime in MM-dd-yyyy hh:mm format")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy hh:mm")
     @NotNull(message = "Date cannot be empty")

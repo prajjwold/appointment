@@ -76,7 +76,6 @@ public class AppointmentsController {
         if (!this.isValidTime(date)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Time");
         }
-
         long doctorId = appointment.getDoctor().getId();
         long count = this.appointmentRepository.countByDoctorIdAndDateEquals(doctorId, date);
 
@@ -87,11 +86,23 @@ public class AppointmentsController {
         this.appointmentRepository.save(appointment);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void update(@PathVariable("id") long id, @RequestBody Appointment dto) {
         Optional<Appointment> appointment = this.appointmentRepository.findById(id);
-        this.appointmentRepository.save(appointment.orElseGet(null));
+        // Update
+        var updated = appointment.get();
+        updated.setPatientFirstName(dto.getPatientFirstName());
+        updated.setPatientLastName(dto.getPatientLastName());
+        updated.setDate(dto.getDate());
+        updated.setDoctor(dto.getDoctor());
+        updated.setKind(dto.getKind());
+
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        ObjectReader objectReader = objectMapper.readerForUpdating(appointment.orElseGet(null));
+//        Appointment updated = objectReader
+
+        this.appointmentRepository.save(updated);
     }
 
     @DeleteMapping("/{id}")
@@ -119,9 +130,13 @@ public class AppointmentsController {
     public void update(@PathVariable("id") long id, @RequestBody Map<String, Object> patch)
             throws JsonMappingException, JsonProcessingException {
         Optional<Appointment> appointment = this.appointmentRepository.findById(id);
+
+        // Merge the existing data and patch
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectReader objectReader = objectMapper.readerForUpdating(appointment.orElseGet(null));
         Appointment updated = objectReader.readValue(objectMapper.writeValueAsString(patch));
+
+        // Update the database
         this.appointmentRepository.save(updated);
     }
 
